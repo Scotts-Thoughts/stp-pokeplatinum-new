@@ -26,10 +26,20 @@ void Options_Init(Options *options)
 {
     MI_CpuFill8(options, 0, sizeof(Options));
 
-    options->textSpeed = OPTIONS_TEXT_SPEED_NORMAL;
-    options->soundMode = OPTIONS_SOUND_MODE_STEREO;
-    options->battleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
-    options->battleScene = OPTIONS_BATTLE_SCENE_ON;
+    // // Original Code
+    // options->textSpeed = OPTIONS_TEXT_SPEED_NORMAL;
+    // options->soundMode = OPTIONS_SOUND_MODE_STEREO;
+    // options->battleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
+    // options->battleScene = OPTIONS_BATTLE_SCENE_ON;
+    // options->buttonMode = OPTIONS_BUTTON_MODE_NORMAL;
+    // options->frame = OPTIONS_FRAME_1;
+
+    // STP_OPTIONS OPTIONS DEFAULT_OPTIONS
+    // These values are defined within "game_options.h"
+    options->textSpeed = OPTIONS_TEXT_SPEED_FAST;
+    options->soundMode = OPTIONS_SOUND_MODE_MONO;
+    options->battleStyle = OPTIONS_BATTLE_STYLE_SET;
+    options->battleScene = OPTIONS_BATTLE_SCENE_OFF;
     options->buttonMode = OPTIONS_BUTTON_MODE_NORMAL;
     options->frame = OPTIONS_FRAME_1;
 }

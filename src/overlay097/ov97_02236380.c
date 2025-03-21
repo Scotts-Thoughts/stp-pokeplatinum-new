@@ -410,11 +410,11 @@ u32 GetGBABoxMonData(BoxPokemonGBA *boxMonGBA, int field, u8 *param2)
         GBADecryptBoxMon(boxMonGBA);
         checksum = CalculateGBABoxMonChecksum(boxMonGBA);
 
-        if (checksum != boxMonGBA->checksum) {
-            boxMonGBA->isBadEgg = TRUE;
-            boxMonGBA->isEgg = TRUE;
-            substruct3->isEgg = TRUE;
-        }
+        // if (checksum != boxMonGBA->checksum) {
+        //     boxMonGBA->isBadEgg = TRUE;
+        //     boxMonGBA->isEgg = TRUE;
+        //     substruct3->isEgg = TRUE;
+        // }
     }
 
     switch (field) {
@@ -679,13 +679,13 @@ void SetGBABoxMonData(BoxPokemonGBA *boxMonGBA, int field, const u8 *dataArg)
         GBADecryptBoxMon(boxMonGBA);
         checksum = CalculateGBABoxMonChecksum(boxMonGBA);
 
-        if (checksum != boxMonGBA->checksum) {
-            boxMonGBA->isBadEgg = TRUE;
-            boxMonGBA->isEgg = TRUE;
-            substruct3->isEgg = TRUE;
-            GBAEncryptBoxMon(boxMonGBA);
-            return;
-        }
+        // if (checksum != boxMonGBA->checksum) {
+        //     boxMonGBA->isBadEgg = TRUE;
+        //     boxMonGBA->isEgg = TRUE;
+        //     substruct3->isEgg = TRUE;
+        //     GBAEncryptBoxMon(boxMonGBA);
+        //     return;
+        // }
     }
 
     switch (field) {

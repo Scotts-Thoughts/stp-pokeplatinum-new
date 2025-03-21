@@ -85,7 +85,7 @@
 #define VAR_UNK_0x4069                        (SYSTEM_VARS_START + 57)
 #define VAR_UNK_0x406A                        (SYSTEM_VARS_START + 58)
 #define VAR_UNK_0x406B                        (SYSTEM_VARS_START + 59)
-#define VAR_UNUSED_0x406C                     (SYSTEM_VARS_START + 60)
+#define VAR_UNUSED_0x406C_PLAYER_STARTER_POS  (SYSTEM_VARS_START + 60)
 #define VAR_UNUSED_0x406D                     (SYSTEM_VARS_START + 61)
 #define VAR_UNUSED_0x406E                     (SYSTEM_VARS_START + 62)
 #define VAR_UNUSED_0x406F                     (SYSTEM_VARS_START + 63)

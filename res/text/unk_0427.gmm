@@ -1,154 +1,157 @@
 <?xml version="1.0"?>
 <body language="English">
 	<key value="59361" />
+	<!-- Male Player Names -->
 	<row id="pl_msg_00000427_00000" index="0">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Plato</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00001" index="1">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Ash</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00002" index="2">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Nic</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00003" index="3">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Jimmy</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00004" index="4">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Duncan</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00005" index="5">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Todd</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00006" index="6">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Ross</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00007" index="7">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Steven</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00008" index="8">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Darrell</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00009" index="9">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Reed</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00010" index="10">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Chris</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00011" index="11">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Brad</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00012" index="12">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Dwight</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00013" index="13">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Randy</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00014" index="14">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Andy</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00015" index="15">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Joey</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00016" index="16">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Eric</language>
+		<language name="English">Scott</language>
 	</row>
 	<row id="pl_msg_00000427_00017" index="17">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Mark</language>
+		<language name="English">Scott</language>
 	</row>
+	<!-- Female Player Names -->
 	<row id="pl_msg_00000427_00018" index="18">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Plato</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00019" index="19">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Joelle</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00020" index="20">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Britney</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00021" index="21">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Kelli</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00022" index="22">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Nina</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00023" index="23">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Heidi</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00024" index="24">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Miriam</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00025" index="25">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Teresa</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00026" index="26">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Aubrey</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00027" index="27">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Kelly</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00028" index="28">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Naomi</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00029" index="29">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Abby</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00030" index="30">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Denise</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00031" index="31">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Tamara</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00032" index="32">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Linda</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00033" index="33">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Faith</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00034" index="34">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Mari</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00035" index="35">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">Maggie</language>
+		<language name="English">Dawn</language>
 	</row>
 	<row id="pl_msg_00000427_00036" index="36">
 		<attribute name="window_context_name">used</attribute>
 		<language name="English">Enter Name</language>
 	</row>
+	<!-- Rival Names -->
 	<row id="pl_msg_00000427_00037" index="37">
 		<attribute name="window_context_name">used</attribute>
 		<language name="English">Barry</language>

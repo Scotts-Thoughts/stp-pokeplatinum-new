@@ -504,7 +504,7 @@ u32 Pokemon_GetValue(Pokemon *mon, enum PokemonDataParam param, void *dest)
 
         if (checksum != mon->box.checksum) {
             GF_ASSERT(checksum == mon->box.checksum);
-            mon->box.invalidData = TRUE;
+            mon->box.invalidData = FALSE;
         }
     }
 
@@ -589,7 +589,7 @@ u32 BoxPokemon_GetValue(BoxPokemon *boxMon, enum PokemonDataParam param, void *d
 
         if (checksum != boxMon->checksum) {
             GF_ASSERT(checksum == boxMon->checksum);
-            boxMon->invalidData = TRUE;
+            boxMon->invalidData = FALSE;
         }
     }
 
@@ -1091,7 +1091,7 @@ void Pokemon_SetValue(Pokemon *mon, enum PokemonDataParam param, const void *val
 
         if (checksum != mon->box.checksum) {
             GF_ASSERT(checksum == mon->box.checksum);
-            mon->box.invalidData = TRUE;
+            mon->box.invalidData = FALSE;
             Pokemon_EncryptData(mon->box.dataBlocks, sizeof(PokemonDataBlock) * 4, mon->box.checksum);
             return;
         }
@@ -1175,7 +1175,7 @@ void BoxPokemon_SetValue(BoxPokemon *boxMon, enum PokemonDataParam param, const 
 
         if (checksum != boxMon->checksum) {
             GF_ASSERT(checksum == boxMon->checksum);
-            boxMon->invalidData = TRUE;
+            boxMon->invalidData = FALSE;
             Pokemon_EncryptData(boxMon->dataBlocks, sizeof(PokemonDataBlock) * 4, boxMon->checksum);
             return;
         }
@@ -4548,12 +4548,12 @@ static void LoadSpeciesEvolutions(int monSpecies, SpeciesEvolution speciesEvolut
 
 static void Pokemon_EncryptData(void *data, u32 bytes, u32 seed)
 {
-    EncodeData(data, bytes, seed);
+    // EncodeData(data, bytes, seed);
 }
 
 static void Pokemon_DecryptData(void *data, u32 bytes, u32 seed)
 {
-    DecodeData(data, bytes, seed);
+    // DecodeData(data, bytes, seed);
 }
 
 static u16 Pokemon_GetDataChecksum(void *data, u32 bytes)
@@ -4602,57 +4602,57 @@ static void *BoxPokemon_GetDataBlock(BoxPokemon *boxMon, u32 personality, enum P
         DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 1:
     case 25:
-        DATA_BLOCK_SHUFFLE_CASE(0, 1, 3, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 2:
     case 26:
-        DATA_BLOCK_SHUFFLE_CASE(0, 2, 1, 3)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 3:
     case 27:
-        DATA_BLOCK_SHUFFLE_CASE(0, 3, 1, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 4:
     case 28:
-        DATA_BLOCK_SHUFFLE_CASE(0, 2, 3, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 5:
     case 29:
-        DATA_BLOCK_SHUFFLE_CASE(0, 3, 2, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 6:
     case 30:
-        DATA_BLOCK_SHUFFLE_CASE(1, 0, 2, 3)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 7:
     case 31:
-        DATA_BLOCK_SHUFFLE_CASE(1, 0, 3, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 8:
-        DATA_BLOCK_SHUFFLE_CASE(2, 0, 1, 3)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 9:
-        DATA_BLOCK_SHUFFLE_CASE(3, 0, 1, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 10:
-        DATA_BLOCK_SHUFFLE_CASE(2, 0, 3, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 11:
-        DATA_BLOCK_SHUFFLE_CASE(3, 0, 2, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 12:
-        DATA_BLOCK_SHUFFLE_CASE(1, 2, 0, 3)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 13:
-        DATA_BLOCK_SHUFFLE_CASE(1, 3, 0, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 14:
-        DATA_BLOCK_SHUFFLE_CASE(2, 1, 0, 3)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 15:
-        DATA_BLOCK_SHUFFLE_CASE(3, 1, 0, 2)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 16:
-        DATA_BLOCK_SHUFFLE_CASE(2, 3, 0, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 17:
-        DATA_BLOCK_SHUFFLE_CASE(3, 2, 0, 1)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 18:
-        DATA_BLOCK_SHUFFLE_CASE(1, 2, 3, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 19:
-        DATA_BLOCK_SHUFFLE_CASE(1, 3, 2, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 20:
-        DATA_BLOCK_SHUFFLE_CASE(2, 1, 3, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 21:
-        DATA_BLOCK_SHUFFLE_CASE(3, 1, 2, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 22:
-        DATA_BLOCK_SHUFFLE_CASE(2, 3, 1, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     case 23:
-        DATA_BLOCK_SHUFFLE_CASE(3, 2, 1, 0)
+        DATA_BLOCK_SHUFFLE_CASE(0, 1, 2, 3)
     }
 
     return result;
