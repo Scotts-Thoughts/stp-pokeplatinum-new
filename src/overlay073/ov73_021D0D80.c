@@ -1737,15 +1737,16 @@ static BOOL ov73_021D2318(UnkStruct_ov73_021D1058 *param0)
         }
         break;
     case 47:
-        if (ov73_021D0FFC() == 1) {
+        // if (ov73_021D0FFC() == 1) {
+        if (ov73_021D0FFC() == 1 || gSystem.pressedKeys) {
             param0->unk_94[0] = 0;
             param0->unk_94[1] = 0;
             {
                 Bg_ClearTilemap(param0->unk_18, 0);
             }
             param0->unk_0C = 48;
-        } else if (gSystem.pressedKeys) {
-            param0->unk_0C = 49;
+        // } else if (gSystem.pressedKeys) {
+        //     param0->unk_0C = 49;
         }
         break;
     case 48:
