@@ -1284,6 +1284,11 @@
     .short \destVar
     .endm
 
+    .macro GetStpStarterSpecies destVar
+    .short 840
+    .short \destVar
+    .endm
+
     .macro BufferUndergroundGoodsName templateArg, goods
     .short 223
     .byte \templateArg

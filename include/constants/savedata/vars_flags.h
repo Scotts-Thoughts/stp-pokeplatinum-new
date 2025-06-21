@@ -26,7 +26,7 @@
 #define SYSTEM_VARS_START                     (VARS_START + 0x0030)
 #define NUM_SYSTEM_VARS                       64
 #define VAR_PLAYER_STARTER                    (SYSTEM_VARS_START + 0)
-#define VAR_UNUSED_0x4031                     (SYSTEM_VARS_START + 1)
+#define VAR_UNUSED_0x4031                     (SYSTEM_VARS_START + 1) // VAR_UNUSED_0x4031
 #define VAR_UNK_0x4032                        (SYSTEM_VARS_START + 2)
 #define VAR_VS_SEEKER_BATTERY_LEVEL           (SYSTEM_VARS_START + 3)
 #define VAR_VS_SEEKER_STEP_COUNT              (SYSTEM_VARS_START + 4)

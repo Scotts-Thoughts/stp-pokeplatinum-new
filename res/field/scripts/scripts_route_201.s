@@ -283,7 +283,7 @@ _042E:
     ReturnToField
     FadeScreen 6, 1, 1, 0
     WaitFadeScreen
-    GetPlayerStarterSpecies 0x8000
+    GetStpStarterSpecies VAR_0x8000
     GivePokemon 0x8000, 5, ITEM_NONE, 0x800C
     ApplyMovement 5, _07F8
     ApplyMovement 2, _0760

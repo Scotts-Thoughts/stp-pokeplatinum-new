@@ -22,6 +22,7 @@
 #include "overlay022/struct_ov22_02255800.h"
 #include "overlay115/camera_angle.h"
 
+#include "_stp.h"
 #include "bg_window.h"
 #include "camera.h"
 #include "char_transfer.h"
@@ -58,9 +59,9 @@
 #include "vram_transfer.h"
 
 #define NUM_STARTER_OPTIONS 3 // TODO_STARTER
-#define STARTER_OPTION_0    SPECIES_VENOMOTH // Default: SPECIES_TURTWIG
-#define STARTER_OPTION_1    SPECIES_VENOMOTH // Default: SPECIES_CHIMCHAR
-#define STARTER_OPTION_2    SPECIES_VENOMOTH // Default: SPECIES_PIPLUP
+// #define STARTER_OPTION_0    SPECIES_VENOMOTH // Default: SPECIES_TURTWIG
+// #define STARTER_OPTION_1    SPECIES_VENOMOTH // Default: SPECIES_CHIMCHAR
+// #define STARTER_OPTION_2    SPECIES_VENOMOTH // Default: SPECIES_PIPLUP
 
 #define OAM_MAIN_START 0
 #define OAM_MAIN_END   128
@@ -436,7 +437,15 @@ BOOL ChooseStarter_Exit(OverlayManager *param0, int *param1)
 
     SetVBlankCallback(NULL, NULL);
 
-    v1->species = GetSelectedSpecies(v0->cursorPosition);
+    // v1->species = GetSelectedSpecies(v0->cursorPosition);
+    switch (v0->cursorPosition) {
+    case CURSOR_POSITION_LEFT:
+        v1->species = SPECIES_TURTWIG; break;
+    case CURSOR_POSITION_CENTER:
+        v1->species = SPECIES_CHIMCHAR; break;
+    case CURSOR_POSITION_RIGHT:
+        v1->species = SPECIES_PIPLUP; break;
+    }
 
     v2 = sub_0201E530();
     GF_ASSERT(v2 == 1);
@@ -681,9 +690,9 @@ static void MakeSprite(ChooseStarterApp *app, enum HeapId heapID)
     PokemonSpriteManager_SetCharBaseAddrAndSize(app->spriteManager, NNS_GfdGetTexKeyAddr(texture), NNS_GfdGetTexKeySize(texture));
     PokemonSpriteManager_SetPlttBaseAddrAndSize(app->spriteManager, NNS_GfdGetPlttKeyAddr(palette), NNS_GfdGetPlttKeySize(palette));
 
-    MakePokemonSprite(&app->sprites[0], app, STARTER_OPTION_0);
-    MakePokemonSprite(&app->sprites[1], app, STARTER_OPTION_1);
-    MakePokemonSprite(&app->sprites[2], app, STARTER_OPTION_2);
+    MakePokemonSprite(&app->sprites[0], app, stpStarterSpecies == SPECIES_NONE ? SPECIES_TURTWIG : stpStarterSpecies);
+    MakePokemonSprite(&app->sprites[1], app, stpStarterSpecies == SPECIES_NONE ? SPECIES_CHIMCHAR : stpStarterSpecies);
+    MakePokemonSprite(&app->sprites[2], app, stpStarterSpecies == SPECIES_NONE ? SPECIES_PIPLUP : stpStarterSpecies);
 
     for (int i = 0; i < NUM_STARTER_OPTIONS; i++) {
         PokemonSprite_SetAttribute(app->sprites[i], MON_SPRITE_HIDE, TRUE);
@@ -1782,13 +1791,13 @@ static u16 GetSelectedSpecies(u16 cursorPosition)
 {
     switch (cursorPosition) {
     case CURSOR_POSITION_LEFT:
-        return STARTER_OPTION_0;
+        return stpStarterSpecies == SPECIES_NONE ? SPECIES_TURTWIG : stpStarterSpecies;
 
     case CURSOR_POSITION_CENTER:
-        return STARTER_OPTION_1;
+        return stpStarterSpecies == SPECIES_NONE ? SPECIES_CHIMCHAR : stpStarterSpecies;
 
     case CURSOR_POSITION_RIGHT:
-        return STARTER_OPTION_2;
+        return stpStarterSpecies == SPECIES_NONE ? SPECIES_PIPLUP : stpStarterSpecies;
 
     default:
         GF_ASSERT(FALSE);

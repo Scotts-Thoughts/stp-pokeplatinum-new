@@ -15,7 +15,7 @@
 	</row>
 	<row id="pl_msg_00000360_00003" index="3">
 		<attribute name="window_context_name">used</attribute>
-		<language name="English">{COLOR 2}This is the first {COLOR 0} {COLOR 2}Pokémon{COLOR 0}!\nIs this Pokémon the one for you?</language>
+		<language name="English">{COLOR 2}This is the third{COLOR 0} {COLOR 2}Pokémon{COLOR 0}!\nIs this Pokémon the one for you?</language>
 	</row>
 	<row id="pl_msg_00000360_00004" index="4">
 		<attribute name="window_context_name">garbage</attribute>

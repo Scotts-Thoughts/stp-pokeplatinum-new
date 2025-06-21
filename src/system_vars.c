@@ -4,6 +4,7 @@
 #include "generated/map_headers.h"
 #include "generated/species.h"
 
+#include "_stp.h"
 #include "field_overworld_state.h"
 #include "location.h"
 #include "math.h"
@@ -72,7 +73,7 @@ u16 SystemVars_GetPlayerStarter(VarsFlags *varsFlags)
     return TryGetVarValue(varsFlags, VAR_PLAYER_STARTER);
 }
 
-u16 SystemVars_GetRivalStarter(VarsFlags *varsFlags)
+u16 SystemVars_GetRivalStarter(VarsFlags *varsFlags) //STP_RIVAL_STARTER, Rival Starter
 {
     u16 rivalStarter;
     u16 playerStarter = TryGetVarValue(varsFlags, VAR_PLAYER_STARTER);
@@ -88,11 +89,11 @@ u16 SystemVars_GetRivalStarter(VarsFlags *varsFlags)
     return rivalStarter;
 }
 
-u16 SystemVars_GetPlayerCounterpartStarter(VarsFlags *varsFlags)
+u16 SystemVars_GetPlayerCounterpartStarter(VarsFlags *varsFlags) //STP_RIVAL_STARTER, Rival Starter
 {
     u16 counterpartStarter;
     u16 playerStarter = TryGetVarValue(varsFlags, VAR_PLAYER_STARTER);
-
+    
     if (playerStarter == SPECIES_TURTWIG) {
         counterpartStarter = SPECIES_PIPLUP;
     } else if (playerStarter == SPECIES_CHIMCHAR) {
