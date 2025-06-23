@@ -1277,6 +1277,7 @@ static const int *sub_02065358(int param0)
 
 static int sub_0206537C(MapObject *mapObj)
 {
+    int isRunning;
     int v0 = MapObject_GetTrainerType(mapObj);
 
     // only continue if trainer type is
@@ -1293,9 +1294,10 @@ static int sub_0206537C(MapObject *mapObj)
         // check some property on the player
         // i dont know what they are checking
         // maybe they are checking if the player is running?
-        if (sub_0206140C(playerAvatar) == 0) {
-            return -1;
-        }
+        // if (sub_0206140C(playerAvatar) == 0) {
+            // return -1;
+        // }
+        isRunning = sub_0206140C(playerAvatar);
 
         // only continue if the movement type is in this list Unk_020EEAD0
         {
@@ -1316,6 +1318,7 @@ static int sub_0206537C(MapObject *mapObj)
             }
         }
 
+        // check the y axis
         {
             const MapObject *v5 = Player_MapObject(playerAvatar);
             // get the y coord of both
@@ -1343,16 +1346,23 @@ static int sub_0206537C(MapObject *mapObj)
             int v15 = v12 - v10;
             int v16 = v12 + v10;
 
-            // if the player is in the view range of the trainer
-            if ((v15 <= v9) && (v16 >= v9)) {
-                if ((v13 <= v8) && (v14 >= v8)) {
-                    // calculate the direction of the trainer to the player
-                    int dir = sub_02064488(v11, v12, v8, v9);
-                    // STP: maybe this?
-                    // dir = Direction_GetOpposite(dir);
-                    return dir;
-                }
+            int dir = sub_02064488(v11, v12, v8, v9);
+            if (isRunning == 0)
+            {
+                dir = Direction_GetOpposite(dir);
             }
+            return dir;
+
+            // // if the player is in the view range of the trainer
+            // if ((v15 <= v9) && (v16 >= v9)) {
+            //     if ((v13 <= v8) && (v14 >= v8)) {
+            //         // calculate the direction of the trainer to the player
+            //         int dir = sub_02064488(v11, v12, v8, v9);
+            //         // STP: maybe this?
+            //         // dir = Direction_GetOpposite(dir);
+            //         return dir;
+            //     }
+            // }
         }
     }
 
