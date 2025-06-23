@@ -65,6 +65,7 @@ static BOOL (*const Unk_020EE77C[4])(u8);
 
 void MapObject_InitMove(MapObject *mapObj)
 {
+    // call 1st movement type fn
     sub_02062B00(mapObj);
     sub_020673B8(mapObj);
 }
@@ -82,6 +83,7 @@ void MapObject_Move(MapObject *mapObj)
     if (MapObject_CheckStatus(mapObj, MAP_OBJ_STATUS_4)) {
         MapObject_DoMovementAction(mapObj);
     } else if (MapObject_IsMovementPaused(mapObj) == FALSE && sub_02063478(mapObj) == TRUE && sub_020673C0(mapObj) == FALSE) {
+        // call 2nd movement type fn
         sub_02062B14(mapObj);
     }
 

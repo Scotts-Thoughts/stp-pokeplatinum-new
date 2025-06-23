@@ -85,9 +85,9 @@ typedef struct MapObject {
     u16 prevTileBehavior;
     SysTask *task;
     const MapObjectManager *mapObjMan;
-    UnkFuncPtr_020EDF0C unk_B8;
-    UnkFuncPtr_020EDF0C_1 unk_BC;
-    UnkFuncPtr_020EDF0C_2 unk_C0;
+    UnkFuncPtr_020EDF0C unk_B8;   // < 1st movement type function
+    UnkFuncPtr_020EDF0C_1 unk_BC; // < 2nd movement type function
+    UnkFuncPtr_020EDF0C_2 unk_C0; // < 3rd movement type function
     UnkFuncPtr_ov5_021FB0F0 unk_C4;
     UnkFuncPtr_ov5_021FB0F0_1 unk_C8;
     UnkFuncPtr_ov5_021FB0F0_2 unk_CC;
@@ -333,6 +333,7 @@ void MapObject_Delete(MapObject *mapObj)
         sub_02062B7C(mapObj);
     }
 
+    // call 3rd movement type fn
     sub_02062B28(mapObj);
     sub_02062A2C(mapObj);
     MapObjectMan_DecObjectCount(sub_02062A48(mapObj));
@@ -745,6 +746,7 @@ static void sub_0206234C(MapObject *mapObj, const MapObjectManager *mapObjMan)
     sub_020656DC(mapObj);
 }
 
+// grabs the first 3 functions of a movement type and attach it to the map object
 static void sub_0206239C(MapObject *mapObj)
 {
     const UnkStruct_020EDF0C *v0 = sub_0206320C(MapObject_GetMovementType(mapObj));
@@ -845,6 +847,7 @@ MapObject *MapObjMan_LocalMapObjByIndex(const MapObjectManager *mapObjMan, int i
     return NULL;
 }
 
+// look for a map object with movement type
 MapObject *sub_02062570(const MapObjectManager *mapObjMan, int movementType)
 {
     int maxObjects = MapObjectMan_GetMaxObjects(mapObjMan);
@@ -1523,6 +1526,7 @@ void sub_02062B28(MapObject *mapObj)
     mapObj->unk_C0(mapObj);
 }
 
+// call 4th function of the movement type
 void sub_02062B34(MapObject *mapObj)
 {
     const UnkStruct_020EDF0C *v0 = sub_0206320C(MapObject_GetMovementType(mapObj));
@@ -2352,7 +2356,7 @@ static const UnkStruct_020EDF0C *sub_0206320C(u32 param0)
 
 static UnkFuncPtr_020EDF0C sub_02063224(const UnkStruct_020EDF0C *param0)
 {
-    return param0->unk_04;
+    return param0->unk_04; 
 }
 
 static UnkFuncPtr_020EDF0C_1 sub_02063228(const UnkStruct_020EDF0C *param0)
@@ -2478,6 +2482,7 @@ void MapObject_SetPosDirFromCoords(MapObject *mapObj, int x, int y, int z, int d
 
 void MapObject_SetMoveCode(MapObject *mapObj, u32 param1)
 {
+    // call 3rd movement type fn
     sub_02062B28(mapObj);
     MapObject_SetMovementType(mapObj, param1);
     sub_0206239C(mapObj);

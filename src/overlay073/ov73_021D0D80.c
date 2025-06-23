@@ -1737,6 +1737,7 @@ static BOOL ov73_021D2318(UnkStruct_ov73_021D1058 *param0)
         }
         break;
     case 47:
+    // STP_INTRO_FIX, Intro Pokeball, Rowan's Pokeball doesn't require touchscreen input
         // if (ov73_021D0FFC() == 1) {
         if (ov73_021D0FFC() == 1 || gSystem.pressedKeys) {
             param0->unk_94[0] = 0;
