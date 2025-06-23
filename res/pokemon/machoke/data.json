@@ -97,7 +97,12 @@
         ]
     },
     "evolutions": [
-        [ "EVO_TRADE", "SPECIES_MACHAMP" ]
+        [ "EVO_TRADE", "SPECIES_MACHAMP" ],
+        [
+            "EVO_USE_ITEM",
+            "ITEM_LINK_CABLE",
+            "SPECIES_MACHAMP"
+        ]
     ],
     "footprint": {
         "has": true,

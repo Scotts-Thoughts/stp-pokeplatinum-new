@@ -99,7 +99,12 @@
         ]
     },
     "evolutions": [
-        [ "EVO_TRADE", "SPECIES_GOLEM" ]
+        [ "EVO_TRADE", "SPECIES_GOLEM" ],
+        [
+            "EVO_USE_ITEM",
+            "ITEM_LINK_CABLE",
+            "SPECIES_GOLEM"
+        ]
     ],
     "footprint": {
         "has": true,
