@@ -97,6 +97,7 @@ static int sub_02065330(int param0, int param1);
 static const int *sub_02065358(int param0);
 static int sub_0206537C(MapObject *mapObj);
 static int sub_02065448(MapObject *mapObj, int param1, int param2);
+static int sub_02065448_avoid_player(MapObject *mapObj, int param1, int param2);
 static void sub_020647A0(MapObject *mapObj, UnkStruct_020647A0 *param1);
 static int sub_0206489C(MapObject *mapObj, int param1);
 static void sub_020648F4(MapObject *mapObj, int param1);
@@ -223,14 +224,66 @@ void sub_020645B4(MapObject *mapObj)
 
 void sub_020645C0(MapObject *mapObj)
 {
-    // try to figure out the directiuon of the player
     UnkStruct_0206450C *v0 = sub_02062A78(mapObj);
-    int v1 = sub_02065448(mapObj, v0->unk_04, -1);
+    
+    // Check if this is a rotating movement type that should keep original behavior
+    int movementType = MapObject_GetMovementType(mapObj);
+    
+    if ((movementType == 0x12) || (movementType == 0x13)) {
+        // For rotating trainers, use the original logic
+        int v1 = sub_02065448(mapObj, v0->unk_04, -1);
 
-    // if it was found, try to face it immediatly
-    if (v1 != -1) {
-        MapObject_TryFace(mapObj, v1);
+        // if it was found, try to face it immediately
+        if (v1 != -1) {
+            MapObject_TryFace(mapObj, v1);
+        } else {
+            switch (v0->unk_00) {
+            case 0:
+                // otherwise decrease timeout counter
+                // (unk_02 is the timer for holding a specific direction before turning again)
+                v0->unk_02--;
+                // if it reaches 0...
+                if (v0->unk_02 <= 0) {
+                    // select a random duration from Unk_020EEA88
+                    v0->unk_02 = sub_0206530C(Unk_020EEA88, -1);
+                    MapObject_TryFace(mapObj, sub_02065330(v0->unk_04, -1));
+                }
+            }
+        }
     } else {
+        // For all other movement types, apply the avoid_player behavior
+        // Check if player is running and visible using the new function
+        int v1 = sub_0206537C_for_all(mapObj);
+        
+        // if it was found (player is running and visible), try to face it immediately
+        if (v1 != -1) {
+            // Check if the direction to the player is in the trainer's available directions
+            const int *dir_array = sub_02065358(v0->unk_04);
+            int dir_array_size = sub_020652EC(dir_array, -1);
+            int i;
+            
+            for (i = 0; i < dir_array_size; i++) {
+                if (dir_array[i] == v1) {
+                    MapObject_TryFace(mapObj, v1);
+                    break;
+                }
+            }
+        } else {
+            // Player is not running, check if trainer is currently facing the player
+            int current_dir = MapObject_GetFacingDir(mapObj);
+            int player_dir = sub_0206537C_get_player_dir(mapObj);
+            
+            // If trainer is currently facing the player and player is walking, immediately change direction
+            if (player_dir != -1 && current_dir == player_dir) {
+                // Use the avoid_player function to select a direction that doesn't face the player
+                int avoid_dir = sub_02065448_avoid_player(mapObj, v0->unk_04, -1);
+                if (avoid_dir != -1) {
+                    MapObject_TryFace(mapObj, avoid_dir);
+                }
+            }
+        }
+        
+        // Handle the timer-based direction changes
         switch (v0->unk_00) {
         case 0:
             // otherwise decrease timeout counter
@@ -240,8 +293,15 @@ void sub_020645C0(MapObject *mapObj)
             if (v0->unk_02 <= 0) {
                 // select a random duration from Unk_020EEA88
                 v0->unk_02 = sub_0206530C(Unk_020EEA88, -1);
-                // and select and face a random allowed direction
-                MapObject_TryFace(mapObj, sub_02065330(v0->unk_04, -1));
+                
+                // Use the avoid_player function to select a direction that doesn't face the player
+                int avoid_dir = sub_02065448_avoid_player(mapObj, v0->unk_04, -1);
+                if (avoid_dir != -1) {
+                    MapObject_TryFace(mapObj, avoid_dir);
+                } else {
+                    // If we can't avoid the player, use the original logic
+                    MapObject_TryFace(mapObj, sub_02065330(v0->unk_04, -1));
+                }
             }
         }
     }
@@ -1359,6 +1419,143 @@ static int sub_0206537C(MapObject *mapObj)
     return -1;
 }
 
+// New function: check if player is visible and running for all movement types
+static int sub_0206537C_for_all(MapObject *mapObj)
+{
+    {
+        FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
+        PlayerAvatar *playerAvatar = sub_0205EF3C(fieldSystem);
+
+        // check if the player is running
+        if (sub_0206140C(playerAvatar) == 0) {
+            return -1;
+        }
+
+        // only continue if the movement type is in this list Unk_020EEAD0
+        {
+            int v0 = MapObject_GetMovementType(mapObj);
+            int v3, v4 = 0;
+
+            do {
+                v3 = Unk_020EEAD0[v4++];
+
+                if (v3 == v0) {
+                    break;
+                }
+            } while (v3 != 0xff);
+
+            if (v0 != v3) {
+                return -1;
+            }
+        }
+
+        {
+            const MapObject *v5 = Player_MapObject(playerAvatar);
+            // get the y coord of both
+            int v6 = sub_020630DC(v5);
+            int v7 = sub_020630DC(mapObj);
+            // if they dont have the same y coord
+            // its impossible for the trainer to see the player
+            if (v6 != v7) {
+                return -1;
+            }
+        }
+
+        {
+            // trainer location
+            int v8 = Player_GetXPos(playerAvatar);
+            int v9 = Player_GetZPos(playerAvatar);
+            // trainer view range
+            int v10 = MapObject_GetDataAt(mapObj, 0);
+            // player location
+            int v11 = MapObject_GetX(mapObj);
+            int v12 = MapObject_GetZ(mapObj);
+            // trainer view range boundries
+            int v13 = v11 - v10;
+            int v14 = v11 + v10;
+            int v15 = v12 - v10;
+            int v16 = v12 + v10;
+
+            // if the player is in the view range of the trainer
+            if ((v15 <= v9) && (v16 >= v9)) {
+                if ((v13 <= v8) && (v14 >= v8)) {
+                    // calculate the direction of the trainer to the player
+                    int dir = sub_02064488(v11, v12, v8, v9);
+                    return dir;
+                }
+            }
+        }
+    }
+
+    return -1;
+}
+
+// New function: get player direction regardless of running state
+static int sub_0206537C_get_player_dir(MapObject *mapObj)
+{
+    {
+        FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
+        PlayerAvatar *playerAvatar = sub_0205EF3C(fieldSystem);
+
+        // only continue if the movement type is in this list Unk_020EEAD0
+        {
+            int v0 = MapObject_GetMovementType(mapObj);
+            int v3, v4 = 0;
+
+            do {
+                v3 = Unk_020EEAD0[v4++];
+
+                if (v3 == v0) {
+                    break;
+                }
+            } while (v3 != 0xff);
+
+            if (v0 != v3) {
+                return -1;
+            }
+        }
+
+        {
+            const MapObject *v5 = Player_MapObject(playerAvatar);
+            // get the y coord of both
+            int v6 = sub_020630DC(v5);
+            int v7 = sub_020630DC(mapObj);
+            // if they dont have the same y coord
+            // its impossible for the trainer to see the player
+            if (v6 != v7) {
+                return -1;
+            }
+        }
+
+        {
+            // trainer location
+            int v8 = Player_GetXPos(playerAvatar);
+            int v9 = Player_GetZPos(playerAvatar);
+            // trainer view range
+            int v10 = MapObject_GetDataAt(mapObj, 0);
+            // player location
+            int v11 = MapObject_GetX(mapObj);
+            int v12 = MapObject_GetZ(mapObj);
+            // trainer view range boundries
+            int v13 = v11 - v10;
+            int v14 = v11 + v10;
+            int v15 = v12 - v10;
+            int v16 = v12 + v10;
+
+            // if the player is in the view range of the trainer
+            if ((v15 <= v9) && (v16 >= v9)) {
+                if ((v13 <= v8) && (v14 >= v8)) {
+                    // calculate the direction of the trainer to the player
+                    int dir = sub_02064488(v11, v12, v8, v9);
+                    return dir;
+                }
+            }
+        }
+    }
+
+    return -1;
+}
+
 // I think this returns the direction a map object to look at to see the player
 static int sub_02065448(MapObject *mapObj, int param1, int param2)
 {
@@ -1452,6 +1649,53 @@ static int sub_02065448(MapObject *mapObj, int param1, int param2)
     }
 
     return -1;
+}
+
+// New function: select a random direction that avoids looking at the player
+static int sub_02065448_avoid_player(MapObject *mapObj, int param1, int param2)
+{
+    // grab the array of directions the trainer can look at
+    const int *dir_array = sub_02065358(param1);
+    // get array size
+    int dir_array_size = sub_020652EC(dir_array, param2);
+
+    if (dir_array_size == 1) {
+        return -1;
+    }
+
+    {
+        int dir_to_player;
+
+        // get the direction of the player relative to the trainer (regardless of running state)
+        dir_to_player = sub_0206537C_get_player_dir(mapObj);
+
+        if (dir_to_player == -1) {
+            // If player is not visible, use normal random selection
+            return sub_02065330(param1, param2);
+        }
+
+        {
+            int i;
+            int available_dirs[4];
+            int available_count = 0;
+            
+            // Find all directions that are NOT towards the player
+            for (i = 0; i < dir_array_size; i++) {
+                if (dir_array[i] != dir_to_player) {
+                    available_dirs[available_count] = dir_array[i];
+                    available_count++;
+                }
+            }
+
+            // If no directions available (shouldn't happen), fall back to original
+            if (available_count == 0) {
+                return sub_02065330(param1, param2);
+            }
+
+            // Select a random direction from the available ones
+            return available_dirs[LCRNG_Next() % available_count];
+        }
+    }
 }
 
 static const int Unk_020EEAB0[2][4] = {
