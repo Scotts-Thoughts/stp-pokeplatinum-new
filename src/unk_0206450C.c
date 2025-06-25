@@ -1346,20 +1346,23 @@ static int sub_0206537C(MapObject *mapObj)
             int v15 = v12 - v10;
             int v16 = v12 + v10;
 
-            // if the player is not running
-            if (isRunning == 0) {
-                // trainer should always look away from the player
-                int dir = sub_02064488(v11, v12, v8, v9);
+            int dir = sub_02064488(v11, v12, v8, v9);
+            if (isRunning == 0)
+            {
                 dir = Direction_GetOpposite(dir);
-                return dir;
             }
-            // if the player is in the view range of the trainer and running
-            else if ((v15 <= v9) && (v16 >= v9)) {
-                if ((v13 <= v8) && (v14 >= v8)) {
-                    // calculate the direction of the trainer to the player
-                    return sub_02064488(v11, v12, v8, v9);
-                }
-            }
+            return dir;
+
+            // // if the player is in the view range of the trainer
+            // if ((v15 <= v9) && (v16 >= v9)) {
+            //     if ((v13 <= v8) && (v14 >= v8)) {
+            //         // calculate the direction of the trainer to the player
+            //         int dir = sub_02064488(v11, v12, v8, v9);
+            //         // STP: maybe this?
+            //         // dir = Direction_GetOpposite(dir);
+            //         return dir;
+            //     }
+            // }
         }
     }
 
