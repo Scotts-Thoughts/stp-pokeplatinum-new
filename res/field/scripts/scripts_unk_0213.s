@@ -431,6 +431,19 @@ _0544:
     End
 
 _0565:
+    @inject new code here to give the player a Link Cable
+    GoToIfSet 300, _1565 @Flag 300 seems to be unused
+    Message 56
+    SetVar 0x8004, 113 @113 = link cable
+    SetVar 0x8005, 1   @the quantity of the item to give
+    ScrCmd_07D 0x8004, 0x8005, 0x800C
+    SetFlag 300 @Flag 300 seems to be unused
+    CallCommonScript 0x7E0
+    CloseMessage
+    ReleaseAll
+    End
+
+_1565:
     Message 57
     ScrCmd_040 1, 1, 0, 1, 0x800C
     ScrCmd_042 41, 0

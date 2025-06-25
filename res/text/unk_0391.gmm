@@ -454,9 +454,8 @@
 		<language name="English">A glowing orb to be held by GIRATINA.\nIt boosts the power of Dragon- and\nGhost-type moves.</language>
 	</row>
 	<row id="pl_msg_00000391_00113" index="113">
-		<attribute name="window_context_name">garbage</attribute>
-		<language name="English"></language>
-		<language name="日本語"></language>
+		<attribute name="window_context_name">used</attribute>
+		<language name="English">A Link Cable. It is used to trade\nPokémon with other players.</language>
 	</row>
 	<row id="pl_msg_00000391_00114" index="114">
 		<attribute name="window_context_name">garbage</attribute>

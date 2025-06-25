@@ -264,9 +264,8 @@
 		<language name="日本語">XXXXXXXXXXXXXXXXX</language>
 	</row>
 	<row id="pl_msg_00000221_00056" index="56">
-		<attribute name="window_context_name">garbage</attribute>
-		<language name="English"></language>
-		<language name="日本語">XXXXXXXXXXXXX</language>
+		<attribute name="window_context_name">used</attribute>
+		<language name="English">I have a special item for you.\r</language>
 	</row>
 	<row id="pl_msg_00000221_00057" index="57">
 		<attribute name="window_context_name">used</attribute>
