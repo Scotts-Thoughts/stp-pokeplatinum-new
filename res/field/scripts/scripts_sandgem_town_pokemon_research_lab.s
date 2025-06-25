@@ -52,6 +52,7 @@ _00AF:
 _00B7:
     ScrCmd_22D 2, 0x800C
     GoToIfEq 0x800C, 1, _07AE
+    GoToIfGe 0x4071, 2, _060E
     GoToIfUnset 0x9BA, _00E5
     ScrCmd_1E8 0x800C
     GoToIfEq 0x800C, 1, _060E
