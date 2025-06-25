@@ -1403,7 +1403,7 @@ static int sub_02065448(MapObject *mapObj, int param1, int param2)
 
             // otherwise
             {
-                int east_west = DIR_NONE, north_south = DIR_NONE;
+                int v4 = DIR_NONE, v5 = DIR_NONE;
                 int mapObj_x = MapObject_GetX(mapObj);
                 int mapObj_z = MapObject_GetZ(mapObj);
                 FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
@@ -1412,43 +1412,43 @@ static int sub_02065448(MapObject *mapObj, int param1, int param2)
                 int player_z = Player_GetZPos(playerAvatar);
 
                 if (mapObj_x > player_x) {
-                    east_west = DIR_WEST;
+                    v4 = DIR_WEST;
                 } else if (mapObj_x < player_x) {
-                    east_west = DIR_EAST;
+                    v4 = DIR_EAST;
                 }
 
                 if (mapObj_z > player_z) {
-                    north_south = DIR_NORTH;
+                    v5 = DIR_NORTH;
                 } else if (mapObj_z < player_z) {
-                    north_south = DIR_SOUTH;
+                    v5 = DIR_SOUTH;
                 }
 
                 i = 0;
 
-                if (east_west == DIR_NONE) {
+                if (v4 == DIR_NONE) {
                     do {
-                        if (dir_array[i] != north_south) {
-                            return north_south;
+                        if (dir_array[i] == v5) {
+                            return v5;
                         }
 
                         i++;
                     } while (i < dir_array_size);
-                } else if (north_south == DIR_NONE) {
+                } else if (v5 == DIR_NONE) {
                     do {
-                        if (dir_array[i] != east_west) {
-                            return east_west;
+                        if (dir_array[i] == v4) {
+                            return v4;
                         }
 
                         i++;
                     } while (i < dir_array_size);
                 } else {
                     do {
-                        if (dir_array[i] == east_west) {
-                            return east_west;
+                        if (dir_array[i] == v4) {
+                            return v4;
                         }
 
-                        if (dir_array[i] == north_south) {
-                            return north_south;
+                        if (dir_array[i] == v5) {
+                            return v5;
                         }
 
                         i++;
