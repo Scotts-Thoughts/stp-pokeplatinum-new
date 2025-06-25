@@ -95,7 +95,7 @@ static int sub_020652EC(const int *param0, int param1);
 static int sub_0206530C(const int *param0, int param1);
 static int sub_02065330(int param0, int param1);
 static const int *sub_02065358(int param0);
-static int sub_0206537C(MapObject *mapObj, const int *dir_array, int dir_array_size, int *out_isRunning);
+static int sub_0206537C(MapObject *mapObj);
 static int sub_02065448(MapObject *mapObj, int param1, int param2);
 static void sub_020647A0(MapObject *mapObj, UnkStruct_020647A0 *param1);
 static int sub_0206489C(MapObject *mapObj, int param1);
@@ -1275,7 +1275,8 @@ static const int *sub_02065358(int param0)
     return NULL;
 }
 
-static int sub_0206537C(MapObject *mapObj, const int *dir_array, int dir_array_size, int *out_isRunning) {
+static int sub_0206537C(MapObject *mapObj)
+{
     int isRunning;
     int v0 = MapObject_GetTrainerType(mapObj);
 
@@ -1283,93 +1284,86 @@ static int sub_0206537C(MapObject *mapObj, const int *dir_array, int dir_array_s
     // TRAINER_TYPE_NORMAL or 
     // TRAINER_TYPE_VIEW_ALL_DIRECTIONS
     if ((v0 != 0x1) && (v0 != 0x2)) {
-        if (out_isRunning) *out_isRunning = 0;
         return -1;
     }
 
-    FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
-    PlayerAvatar *playerAvatar = sub_0205EF3C(fieldSystem);
-    isRunning = sub_0206140C(playerAvatar);
-    if (out_isRunning) *out_isRunning = isRunning;
-
-    // only continue if the movement type is in this list Unk_020EEAD0
     {
-        int v3, v4 = 0;
-        v0 = MapObject_GetMovementType(mapObj);
-        do {
-            v3 = Unk_020EEAD0[v4++];
-            if (v3 == v0) {
-                break;
-            }
-        } while (v3 != 0xff);
-        if (v0 != v3) {
-            return -1;
-        }
-    }
+        FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
+        PlayerAvatar *playerAvatar = sub_0205EF3C(fieldSystem);
 
-    // check the y axis
-    {
-        const MapObject *v5 = Player_MapObject(playerAvatar);
-        int v6 = sub_020630DC(v5);
-        int v7 = sub_020630DC(mapObj);
-        if (v6 != v7) {
-            return -1;
-        }
-    }
+        // check some property on the player
+        // i dont know what they are checking
+        // maybe they are checking if the player is running?
+        // if (sub_0206140C(playerAvatar) == 0) {
+            // return -1;
+        // }
+        isRunning = sub_0206140C(playerAvatar);
 
-    // trainer and player positions
-    int player_x = Player_GetXPos(playerAvatar);
-    int player_z = Player_GetZPos(playerAvatar);
-    int trainer_x = MapObject_GetX(mapObj);
-    int trainer_z = MapObject_GetZ(mapObj);
-    int view_range = MapObject_GetDataAt(mapObj, 0);
-    int x_min = trainer_x - view_range;
-    int x_max = trainer_x + view_range;
-    int z_min = trainer_z - view_range;
-    int z_max = trainer_z + view_range;
+        // only continue if the movement type is in this list Unk_020EEAD0
+        {
+            int v3, v4 = 0;
 
-    int dir_to_player = sub_02064488(trainer_x, trainer_z, player_x, player_z);
-    int dir_away_from_player = Direction_GetOpposite(dir_to_player);
+            v0 = MapObject_GetMovementType(mapObj);
 
-    if (isRunning == 0) {
-        // Player is walking: never face the player, randomize among allowed directions not facing the player
-        int possible_dirs[4];
-        int count = 0;
-        for (int i = 0; i < dir_array_size; ++i) {
-            if (dir_array[i] != dir_to_player) {
-                possible_dirs[count++] = dir_array[i];
+            do {
+                v3 = Unk_020EEAD0[v4++];
+
+                if (v3 == v0) {
+                    break;
+                }
+            } while (v3 != 0xff);
+
+            if (v0 != v3) {
+                return -1;
             }
         }
-        if (count > 0) {
-            return possible_dirs[LCRNG_Next() % count];
-        } else {
-            // Only allowed direction is toward the player, fallback to any allowed direction
-            return dir_array[LCRNG_Next() % dir_array_size];
+
+        // check the y axis
+        {
+            const MapObject *v5 = Player_MapObject(playerAvatar);
+            // get the y coord of both
+            int v6 = sub_020630DC(v5);
+            int v7 = sub_020630DC(mapObj);
+            // if they dont have the same y coord
+            // its impossible for the trainer to see the player
+            if (v6 != v7) {
+                return -1;
+            }
         }
-    } else {
-        // Player is running: if in view range, can face the player if allowed
-        if ((z_min <= player_z) && (z_max >= player_z) && (x_min <= player_x) && (x_max >= player_x)) {
-            for (int i = 0; i < dir_array_size; ++i) {
-                if (dir_array[i] == dir_to_player) {
-                    return dir_to_player;
+
+        {
+            // trainer location
+            int v8 = Player_GetXPos(playerAvatar);
+            int v9 = Player_GetZPos(playerAvatar);
+            // trainer view range
+            int v10 = MapObject_GetDataAt(mapObj, 0);
+            // player location
+            int v11 = MapObject_GetX(mapObj);
+            int v12 = MapObject_GetZ(mapObj);
+            // trainer view range boundries
+            int v13 = v11 - v10;
+            int v14 = v11 + v10;
+            int v15 = v12 - v10;
+            int v16 = v12 + v10;
+
+            // if the player is not running
+            if (isRunning == 0) {
+                // trainer should always look away from the player
+                int dir = sub_02064488(v11, v12, v8, v9);
+                dir = Direction_GetOpposite(dir);
+                return dir;
+            }
+            // if the player is in the view range of the trainer and running
+            else if ((v15 <= v9) && (v16 >= v9)) {
+                if ((v13 <= v8) && (v14 >= v8)) {
+                    // calculate the direction of the trainer to the player
+                    return sub_02064488(v11, v12, v8, v9);
                 }
             }
         }
-        // Otherwise, randomize among allowed directions not facing the player
-        int possible_dirs[4];
-        int count = 0;
-        for (int i = 0; i < dir_array_size; ++i) {
-            if (dir_array[i] != dir_to_player) {
-                possible_dirs[count++] = dir_array[i];
-            }
-        }
-        if (count > 0) {
-            return possible_dirs[LCRNG_Next() % count];
-        } else {
-            // Only allowed direction is toward the player, fallback to any allowed direction
-            return dir_array[LCRNG_Next() % dir_array_size];
-        }
     }
+
+    return -1;
 }
 
 // I think this returns the direction a map object to look at to see the player
@@ -1381,17 +1375,90 @@ static int sub_02065448(MapObject *mapObj, int param1, int param2)
     int dir_array_size = sub_020652EC(dir_array, param2);
 
     if (dir_array_size == 1) {
-        return dir_array[0];
+        return -1;
     }
 
-    int isRunning = 0;
-    int chosen_dir = sub_0206537C(mapObj, dir_array, dir_array_size, &isRunning);
-    if (chosen_dir != -1) {
-        return chosen_dir;
+    {
+        int dir_to_player;
+
+        // get the direction of the player relative to the 
+        // trainer if possible
+        dir_to_player = sub_0206537C(mapObj);
+
+        if (dir_to_player == -1) {
+            return dir_to_player;
+        }
+
+        {
+            int i;
+            
+            // check if the direct to the player is in the direction array
+            i = 0;
+            do {
+                if (dir_array[i] == dir_to_player) {
+                    return dir_to_player;
+                }
+                i++;
+            } while (i < dir_array_size);
+
+            // otherwise
+            {
+                int east_west = DIR_NONE, north_south = DIR_NONE;
+                int mapObj_x = MapObject_GetX(mapObj);
+                int mapObj_z = MapObject_GetZ(mapObj);
+                FieldSystem *fieldSystem = MapObject_FieldSystem(mapObj);
+                PlayerAvatar *playerAvatar = sub_0205EF3C(fieldSystem);
+                int player_x = Player_GetXPos(playerAvatar);
+                int player_z = Player_GetZPos(playerAvatar);
+
+                if (mapObj_x > player_x) {
+                    east_west = DIR_WEST;
+                } else if (mapObj_x < player_x) {
+                    east_west = DIR_EAST;
+                }
+
+                if (mapObj_z > player_z) {
+                    north_south = DIR_NORTH;
+                } else if (mapObj_z < player_z) {
+                    north_south = DIR_SOUTH;
+                }
+
+                i = 0;
+
+                if (east_west == DIR_NONE) {
+                    do {
+                        if (dir_array[i] != north_south) {
+                            return north_south;
+                        }
+
+                        i++;
+                    } while (i < dir_array_size);
+                } else if (north_south == DIR_NONE) {
+                    do {
+                        if (dir_array[i] != east_west) {
+                            return east_west;
+                        }
+
+                        i++;
+                    } while (i < dir_array_size);
+                } else {
+                    do {
+                        if (dir_array[i] == east_west) {
+                            return east_west;
+                        }
+
+                        if (dir_array[i] == north_south) {
+                            return north_south;
+                        }
+
+                        i++;
+                    } while (i < dir_array_size);
+                }
+            }
+        }
     }
 
-    // fallback: random allowed direction
-    return dir_array[LCRNG_Next() % dir_array_size];
+    return -1;
 }
 
 static const int Unk_020EEAB0[2][4] = {
