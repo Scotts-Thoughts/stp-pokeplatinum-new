@@ -8,6 +8,7 @@
 #include "constants/pokemon.h"
 #include "constants/species.h"
 #include "constants/trainer.h"
+#include "constants/savedata/vars_flags.h"
 #include "generated/abilities.h"
 #include "generated/genders.h"
 
@@ -4634,7 +4635,7 @@ static BOOL BtlCmd_DivideVarByValue(BattleSystem *battleSys, BattleContext *batt
 }
 
 /**
- * @brief DivideVarByValue the value of a variable by the value of another variable,
+ * @brief DivideVarByVar the value of a variable by the value of another variable,
  * storing the result back into the former.
  *
  * This operation will not permit quotients of 0. CompareVarToValue the variable's value is
@@ -11239,8 +11240,8 @@ static int BattleScript_CalcCatchShakes(BattleSystem *battleSys, BattleContext *
                 break;
             }
         }
-
-        if (battleCtx->msgItemTemp == ITEM_MASTER_BALL) {
+        u16 *varPtr = VarsFlags_GetVarAddress(SaveData_GetVarsFlags(SaveData_Ptr()), VAR_STP_CATCH_RATE);
+        if (battleCtx->msgItemTemp == ITEM_MASTER_BALL || (varPtr && *varPtr == 1)) {
             shakes = 4;
         }
     }
