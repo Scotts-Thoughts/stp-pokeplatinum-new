@@ -804,7 +804,23 @@ static BOOL ov73_021D1648(UnkStruct_ov73_021D1058 *param0, int param1, int param
         }
 
         if ((param0->unk_48 == 0xfffffffe) && (param2 == 1)) {
-            break;
+            // Handle B button: move cursor down, or act as A if on last option
+            u16 currentListPos, currentCursorPos;
+            ListMenu_GetListAndCursorPos(param0->unk_40, &currentListPos, &currentCursorPos);
+            u16 trueCursorPos = currentListPos + currentCursorPos;
+            
+            // Check if we're on the last option (index 2 for 3-option menu)
+            if (trueCursorPos == 2) {
+                // On "No Info Needed" option - treat B as A
+                param0->unk_48 = 3; // Return option 3
+                // Don't break - let it continue to cleanup section
+            } else {
+                // Not on last option - move cursor down using TestInput
+                u16 newListPos, newCursorPos;
+                ListMenu_TestInput(param0->unk_40, NULL, currentListPos, currentCursorPos, TRUE, PAD_KEY_DOWN, &newListPos, &newCursorPos);
+                param0->unk_48 = 0xffffffff; // Continue processing
+                break;
+            }
         }
 
         Window_EraseStandardFrame(&param0->unk_30, 0);
