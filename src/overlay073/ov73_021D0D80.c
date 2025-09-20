@@ -739,6 +739,41 @@ static void ov73_021D1634(ListMenu *param0, u32 param1, u8 param2)
     }
 }
 
+// Custom input processing for the 3-option menu (Control Info, Adventure Info, No Info Needed)
+static u32 ov73_021D1648_ProcessInput3Option(UnkStruct_ov73_021D1058 *param0)
+{
+    ListMenu *menu = param0->unk_40;
+    menu->lastAction = LIST_MENU_ACTION_NONE;
+
+    if (JOY_NEW(PAD_BUTTON_A)) {
+        return menu->template.choices[menu->listPos + menu->cursorPos].index;
+    }
+
+    if (JOY_NEW(PAD_BUTTON_B)) {
+        // For the 3-option menu, B should move cursor down
+        // If we're on the last option (index 2), treat B as A
+        if (menu->cursorPos == 2) {
+            // On "NO INFO NEEDED", treat B as A
+            return menu->template.choices[menu->listPos + menu->cursorPos].index;
+        } else {
+            // Move cursor down by directly manipulating the cursor position
+            menu->cursorPos++;
+            
+            // Redraw the entire menu to show the cursor in the new position
+            ListMenu_Draw(menu);
+            
+            // Play the cursor movement sound
+            Sound_PlayEffect(SEQ_SE_CONFIRM);
+            
+            menu->lastAction = LIST_MENU_ACTION_MOVE_DOWN;
+            return LIST_NOTHING_CHOSEN;
+        }
+    }
+
+    // For all other inputs, use the standard processing
+    return ListMenu_ProcessInput(menu);
+}
+
 static BOOL ov73_021D1648(UnkStruct_ov73_021D1058 *param0, int param1, int param2)
 {
     BOOL v0 = 0;
@@ -797,7 +832,13 @@ static BOOL ov73_021D1648(UnkStruct_ov73_021D1058 *param0, int param1, int param
         param0->unk_2C = 1;
         break;
     case 1:
-        param0->unk_48 = ListMenu_ProcessInput(param0->unk_40);
+        // Use custom input processing for the 3-option menu (param1 == 1)
+        // Use standard input processing for the rival naming menu (param1 == 2)
+        if (param1 == 1) {
+            param0->unk_48 = ov73_021D1648_ProcessInput3Option(param0);
+        } else {
+            param0->unk_48 = ListMenu_ProcessInput(param0->unk_40);
+        }
 
         if (param0->unk_48 == 0xffffffff) {
             break;
